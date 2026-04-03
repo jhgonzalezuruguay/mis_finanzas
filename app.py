@@ -76,3 +76,32 @@ if calcular:
         # Resultado
         st.write(f"💵 Dinero disponible: {dinero_formateado}")
         st.write(f"📊 Endeudamiento: {endeudamiento:.1f}%")
+        
+        # 8. Recomendaciones personalizadas
+        st.write("---")
+        st.subheader("📌 ¿Qué puedes hacer?")
+
+        if disponible < 0:
+            deficit = abs(disponible)
+            st.write(f"🔴 Te faltan aproximadamente $ {deficit:,.0f}".replace(",", "."))
+            st.write("👉 Reduce gastos o aumenta ingresos urgentemente.")
+            st.write("👉 Prioriza pagar deudas con intereses altos.")
+
+        elif disponible < ingreso * 0.2:
+            necesario = ingreso * 0.2 - disponible
+            st.write(f"🟡 Te faltan $ {necesario:,.0f} para estar en zona segura.".replace(",", "."))
+            st.write("👉 Intenta reducir gastos pequeños.")
+            st.write("👉 Evita nuevas deudas.")
+
+        else:
+            ahorro = disponible
+            st.write(f"🟢 Podrías ahorrar aproximadamente $ {ahorro:,.0f}".replace(",", "."))
+            st.write("👉 Considera ahorrar o invertir ese dinero.")
+            st.write("👉 Mantén tus gastos bajo control.")
+
+        # Recomendación adicional por endeudamiento
+        if endeudamiento > 50:
+            st.write("⚠️ Tu nivel de deuda es muy alto respecto a tu ingreso.")
+        elif endeudamiento > 30:
+            st.write("⚠️ Tu nivel de deuda empieza a ser riesgoso.")
+
