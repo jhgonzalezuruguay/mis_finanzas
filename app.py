@@ -20,7 +20,7 @@ modo_gastos = st.radio(
 )
 
 if modo_gastos == "Gasto Total Mensual":
-    gastos = st.number_input("### 🧾 Gasto total mensual", min_value=0.0)
+    gastos = st.number_input("🧾 Gasto total mensual", min_value=0.0)
 
 else:
     st.write("### 📊 Desglose de gastos mensuales")
