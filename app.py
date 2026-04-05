@@ -36,6 +36,18 @@ h1, h2, h3 {
     font-weight: bold;
     color: black;
 }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    animation: fadeIn 0.6s ease-in-out;
+}
+.card:hover {
+    transform: scale(1.3);
+    transition: 0.2s;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -127,7 +139,11 @@ with tab2:
         col1.metric("💵 Disponible", f"$ {disponible:,.0f}".replace(",", "."))
         col2.metric("📊 Endeudamiento", f"{endeudamiento:.1f}%")
 
-        st.progress(min(max(endeudamiento / 100, 0), 1))
+        progress = min(max(endeudamiento / 100, 0), 1)
+        bar = st.progress(0)
+
+        for i in range(int(progress * 100)):
+            bar.progress(i + 1)
 
         if disponible < 0:
             st.error("🔴 Estás gastando más de lo que ganas")
