@@ -220,7 +220,7 @@ with tab3:
                 risk_card(
                     "🟡 Riesgo MODERADO",
                     "Estás en una zona de alerta. Conviene ajustar tus finanzas.",
-                    "#FFD600"
+                    "orange"
                 ),
                 unsafe_allow_html=True
             )
@@ -236,7 +236,7 @@ with tab3:
                 risk_card(
                     "🟢 Sin riesgo",
                     "Tu situación es saludable. Puedes planificar ahorro o inversión.",
-                    "#00C853"
+                    "darkgreen"
                 ),
                 unsafe_allow_html=True
             )
