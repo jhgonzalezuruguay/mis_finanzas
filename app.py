@@ -48,6 +48,16 @@ h1, h2, h3 {
     transform: scale(1.3);
     transition: 0.2s;
 }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* HOVER TARJETA DE RIESGO */
+.risk-card:hover {
+    transform: scale(1.3);
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -57,6 +67,20 @@ def card(titulo, valor):
     <div class="card">
         <div class="card-title">{titulo}</div>
         <div class="card-value">{valor}</div>
+    </div>
+    """
+def risk_card(titulo, mensaje, color):
+    return f"""
+    <div class="risk-card" style="
+        background:lightgrey;
+        padding:20px;
+        border-radius:12px;
+        margin-top:10px;
+        border-left:8px solid {color};
+        animation: fadeIn 0.6s ease-in-out;
+    ">
+        <h3 style="margin:0; color:{color};">{titulo}</h3>
+        <p style="margin-top:10px; color:#000;">{mensaje}</p>
     </div>
     """
 
@@ -176,7 +200,15 @@ with tab3:
 
         # TU LÓGICA ORIGINAL (INTACTA)
         if disponible < 0 or endeudamiento > 50:
-            st.error("🔴 Riesgo ALTO")
+            st.markdown(
+                risk_card(
+                "🔴 Riesgo ALTO",
+                "Estás en zona de peligro financiero. Necesitas reducir gastos o deudas urgentemente.",
+                "#FF5252"
+                ),
+                unsafe_allow_html=True
+            )
+
             recomendaciones = [
                 "Reduce gastos urgentemente",
                 "Evita nuevas deudas",
@@ -184,7 +216,15 @@ with tab3:
             ]
 
         elif disponible < ingreso * 0.2 or endeudamiento >= 30:
-            st.warning("🟡 Riesgo MODERADO")
+            st.markdown(
+                risk_card(
+                    "🟡 Riesgo MODERADO",
+                    "Estás en una zona de alerta. Conviene ajustar tus finanzas.",
+                    "#FFD600"
+                ),
+                unsafe_allow_html=True
+            )
+
             recomendaciones = [
                 "Ajusta pequeños gastos",
                 "Evita endeudarte más",
@@ -192,7 +232,15 @@ with tab3:
             ]
 
         else:
-            st.success("🟢 Situación SALUDABLE")
+            st.markdown(
+                risk_card(
+                    "🟢 Sin riesgo",
+                    "Tu situación es saludable. Puedes planificar ahorro o inversión.",
+                    "#00C853"
+                ),
+                unsafe_allow_html=True
+            )
+
             recomendaciones = [
                 "Puedes ahorrar o invertir",
                 "Mantén el control de gastos",
