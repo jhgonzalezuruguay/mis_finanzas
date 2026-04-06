@@ -272,7 +272,8 @@ with tab2:
                 🟢 Buena situación financiera
             </div>
             """, unsafe_allow_html=True)
-
+    else:
+        st.warning("Ingresa tus datos en la pestaña DATOS")
 
 # -------------------------
 # TAB 3: RESULTADO
