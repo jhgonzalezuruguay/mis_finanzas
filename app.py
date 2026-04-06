@@ -57,10 +57,27 @@ st.markdown("""
     transition: all 0.2s ease-in-out;
     box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
 }
+
 .impact-card:hover {
     transform: translateY(-5px) scale(1.2);
     transition: all 0.25s ease;
     box-shadow: 0px 12px 25px rgba(0,0,0,0.4);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* 👇 ACÁ ESTÁ LA CLAVE */
+.risk-card {
+    animation: fadeIn 0.6s ease-in-out, pulse 2s infinite;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -81,12 +98,12 @@ def risk_card(titulo, mensaje, color):
         border-radius:12px;
         margin-top:10px;
         border-left:8px solid {color};
-        animation: fadeIn 0.6s ease-in-out;
     ">
         <h3 style="margin:0; color:{color};">{titulo}</h3>
-        <p style="margin-top:10px; color:#000;">{mensaje}</p>
+        <p style="margin-top:10px; color:#333;">{mensaje}</p>
     </div>
     """
+
 def impacto_card(titulo, valor, color):
     return f"""
     <div class="impact-card" style="
