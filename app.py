@@ -27,8 +27,9 @@ st.markdown("""
     margin-bottom: 10px;
 }
 .card-title {
-    font-size: 14px;
-    color: #555;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
 }
 .card-value {
     font-size: 26px;
@@ -78,6 +79,38 @@ st.markdown("""
 /* 👇 ACÁ ESTÁ LA CLAVE */
 .risk-card {
     animation: fadeIn 0.6s ease-in-out, pulse 2s infinite;
+}
+
+/* ALERTAS GRANDES */
+.alert-box {
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: black;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* COLORES */
+.alert-red {
+    background: linear-gradient(90deg, #FF5252, #FF1744);
+}
+
+.alert-yellow {
+    background: linear-gradient(90deg, #FFD600, #FFC400);
+    color: black;
+}
+
+.alert-green {
+    background: linear-gradient(90deg, #00C853, #00E676);
+}
+
+/* ANIMACIÓN */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -172,7 +205,22 @@ with tab1:
     # FEEDBACK INMEDIATO
     if ingreso > 0:
         disponible_preview = ingreso - gastos - deuda
-        st.info(f"💡 Te quedan aproximadamente $ {disponible_preview:,.0f}".replace(",", "."))
+        color = "#FF5252" if disponible_preview <= 0 else "#00C853"
+
+        st.markdown(f"""
+        <div style="
+            background:{color};
+            padding:18px;
+            border-radius:12px;
+            margin-top:10px;
+            text-align:center;
+            color:black;
+            font-size:30px;
+            font-weight:bold;
+        ">
+            💡 Te quedan aproximadamente $ {disponible_preview:,.0f}
+        </div>
+        """.replace(",", "."), unsafe_allow_html=True)
 
 
 # -------------------------
@@ -205,14 +253,25 @@ with tab2:
             bar.progress(i + 1)
 
         if disponible < 0:
-            st.error("🔴 Estás gastando más de lo que ganas")
-        elif disponible < ingreso * 0.2:
-            st.warning("🟡 Estás en una zona ajustada")
-        else:
-            st.success("🟢 Buena situación financiera")
+            st.markdown("""
+            <div class="alert-box alert-red">
+                🔴 Estás gastando más de lo que ganas
+            </div>
+            """, unsafe_allow_html=True)
 
-    else:
-        st.warning("Ingresa tus datos en la pestaña anterior")
+        elif disponible < ingreso * 0.2:
+            st.markdown("""
+            <div class="alert-box alert-yellow">
+                🟡 Estás en una zona ajustada
+            </div>
+            """, unsafe_allow_html=True)
+
+        else:
+            st.markdown("""
+            <div class="alert-box alert-green">
+                🟢 Buena situación financiera
+            </div>
+            """, unsafe_allow_html=True)
 
 
 # -------------------------
@@ -320,3 +379,5 @@ with tab3:
                 ),
                 unsafe_allow_html=True
             )
+    else:
+        st.warning("Ingresa tus datos en la pestaña DATOS")
