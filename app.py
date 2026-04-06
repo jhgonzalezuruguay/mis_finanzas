@@ -90,7 +90,7 @@ def risk_card(titulo, mensaje, color):
 def impacto_card(titulo, valor, color):
     return f"""
     <div class="impact-card" style="
-        background:white;
+        background:lightgrey;
         padding:20px;
         border-radius:12px;
         margin-top:10px;
