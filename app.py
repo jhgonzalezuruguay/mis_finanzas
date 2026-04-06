@@ -8,8 +8,7 @@ st.markdown("""
 <style>
 .main {
     background-color: #0E1117;
-}
-h1, h2, h3 {
+}1, h2, h3 {
     color: #00C2FF;
 }
 .stButton>button {
@@ -58,6 +57,11 @@ h1, h2, h3 {
     transition: all 0.2s ease-in-out;
     box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
 }
+.impact-card:hover {
+    transform: translateY(-5px) scale(1.2);
+    transition: all 0.25s ease;
+    box-shadow: 0px 12px 25px rgba(0,0,0,0.4);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -83,20 +87,34 @@ def risk_card(titulo, mensaje, color):
         <p style="margin-top:10px; color:#000;">{mensaje}</p>
     </div>
     """
-
+def impacto_card(titulo, valor, color):
+    return f"""
+    <div class="impact-card" style="
+        background:white;
+        padding:20px;
+        border-radius:12px;
+        margin-top:10px;
+        border-left:8px solid {color};
+        animation: fadeIn 0.6s ease-in-out;
+        text-align:center;
+    ">
+        <h3 style="margin:0; color:{color};">{titulo}</h3>
+        <h1 style="margin-top:10px; color:#000;">{valor}</h1>
+    </div>
+    """
 # HEADER
-st.title("💰 Mis Finanzas")
+st.title("💰 MIS FINANZAS")
 st.caption("Analiza tu situación financiera en segundos")
 
 # TABS (FLUJO PRO)
-tab1, tab2, tab3 = st.tabs(["1️⃣ Datos", "2️⃣ Análisis", "3️⃣ Resultado"])
+tab1, tab2, tab3 = st.tabs(["1️⃣ DATOS", "2️⃣ ANÁLISIS", "3️⃣ RESULTADO"])
 
 # -------------------------
 # TAB 1: INPUTS
 # -------------------------
 with tab1:
 
-    st.subheader("📥 Ingresa tus datos")
+    st.subheader("📥 INGRESA TUS DATOS")
 
     ingreso = st.number_input("💰 Ingreso mensual", min_value=0.0, placeholder="Ej: 50000")
 
@@ -115,13 +133,13 @@ with tab1:
 
         with col1:
             alimentos = st.number_input("🍽️ Alimentos", min_value=0.0)
-            vivienda = st.number_input("🏠 Vivienda", min_value=0.0)
+            vivienda = st.number_input("🏠 Vivienda y suministros", min_value=0.0)
             salud = st.number_input("🏥 Salud", min_value=0.0)
-            transporte = st.number_input("🚗 Transporte", min_value=0.0)
+            transporte = st.number_input("🚗 Transporte y comunicaciones", min_value=0.0)
 
         with col2:
-            vestimenta = st.number_input("👕 Vestimenta", min_value=0.0)
-            muebles = st.number_input("🛋️ Muebles", min_value=0.0)
+            vestimenta = st.number_input("👕 Vestimenta y calzado", min_value=0.0)
+            muebles = st.number_input("🛋️ Muebles y electrodomésticos", min_value=0.0)
             educacion = st.number_input("🎓 Educación", min_value=0.0)
             otros = st.number_input("📦 Otros", min_value=0.0)
 
@@ -137,7 +155,7 @@ with tab1:
     # FEEDBACK INMEDIATO
     if ingreso > 0:
         disponible_preview = ingreso - gastos - deuda
-        st.info(f"💡 Te quedarían aproximadamente $ {disponible_preview:,.0f}".replace(",", "."))
+        st.info(f"💡 Te quedan aproximadamente $ {disponible_preview:,.0f}".replace(",", "."))
 
 
 # -------------------------
@@ -145,7 +163,7 @@ with tab1:
 # -------------------------
 with tab2:
 
-    st.subheader("📊 Análisis de tu situación")
+    st.subheader("📊 ANÁLISIS DE TU SITUACIÓN")
 
     if ingreso > 0:
 
@@ -185,7 +203,7 @@ with tab2:
 # -------------------------
 with tab3:
 
-    st.subheader("🎯 Resultado final")
+    st.subheader("🎯 RESULTADO FINAL")
 
     if ingreso > 0:
 
@@ -202,7 +220,7 @@ with tab3:
         if disponible < 0 or endeudamiento > 50:
             st.markdown(
                 risk_card(
-                "🔴 Riesgo ALTO",
+                "🔴 RIESGO ALTO",
                 "Estás en zona de peligro financiero. Necesitas reducir gastos o deudas urgentemente.",
                 "#FF5252"
                 ),
@@ -218,7 +236,7 @@ with tab3:
         elif disponible < ingreso * 0.2 or endeudamiento >= 30:
             st.markdown(
                 risk_card(
-                    "🟡 Riesgo MODERADO",
+                    "🟡 RIESGO MODERADO",
                     "Estás en una zona de alerta. Conviene ajustar tus finanzas.",
                     "orange"
                 ),
@@ -234,7 +252,7 @@ with tab3:
         else:
             st.markdown(
                 risk_card(
-                    "🟢 Sin riesgo",
+                    "🟢 SIN RIESGO",
                     "Tu situación es saludable. Puedes planificar ahorro o inversión.",
                     "darkgreen"
                 ),
@@ -251,14 +269,37 @@ with tab3:
         for r in recomendaciones:
             st.write(f"👉 {r}")
 
-        st.markdown("### 📉 Impacto en 12 meses")
+        st.markdown("### 📉 IMPACTO EN 12 MESES")
 
         impacto = disponible * 12
+        impacto_fmt = f"$ {impacto:,.0f}".replace(",", ".")
 
         if disponible < 0:
-            st.error(f"Perderías $ {impacto:,.0f}".replace(",", "."))
-        else:
-            st.success(f"Podrías acumular $ {impacto:,.0f}".replace(",", "."))
+            st.markdown(
+                impacto_card(
+                    "🔴 Impacto negativo",
+                    f"Perderías {impacto_fmt} en 1 año",
+                    "#FF5252"
+                ),
+                unsafe_allow_html=True
+            )
 
-    else:
-        st.warning("Completa tus datos primero")
+        elif disponible == 0:
+            st.markdown(
+                impacto_card(
+                    "🟡 Sin impacto",
+                    "No generarías ahorro ni pérdida en 1 año",
+                    "orange"
+                ),
+                unsafe_allow_html=True
+            )
+
+        else:
+            st.markdown(
+                impacto_card(
+                    "🟢 Impacto positivo",
+                    f"Podrías acumular {impacto_fmt} en 1 año",
+                    "#00C853"
+                ),
+                unsafe_allow_html=True
+            )
