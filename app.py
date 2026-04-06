@@ -99,12 +99,12 @@ st.markdown("""
 }
 
 .alert-yellow {
-    background: linear-gradient(90deg, #FFD600, #FFC400);
+    background: linear-gradient(90deg, lightyellow, #FFD400);
     color: black;
 }
 
 .alert-green {
-    background: linear-gradient(90deg, #00C853, #00E676);
+    background: linear-gradient(90deg, lightgreen, #00E676);
 }
 
 /* ANIMACIÓN */
